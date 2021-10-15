@@ -9,10 +9,11 @@ namespace SmoothDrivingAPI.Domain.Interfaces
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        TEntity InsertOrUpdate(TEntity entity); 
+        void InsertOrUpdate(TEntity entity); 
         void Delete(TEntity entity);
+        void Delete(int id);
         TEntity Select(int id);
-        IEnumerable<TEntity> Select();
+        IList<TEntity> Select();
         void SaveChanges();
     }
 }
