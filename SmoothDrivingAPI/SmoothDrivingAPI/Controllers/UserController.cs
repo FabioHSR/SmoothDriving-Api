@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmoothDrivingAPI.Application.Models;
+using SmoothDrivingAPI.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SmoothDrivingAPI.Controllers
@@ -13,21 +15,19 @@ namespace SmoothDrivingAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var templateUser = new UserViewModel()
-            {
-                Name = "Test user",
-                Email = "testuser@mail.com"
-            };
-            return Ok(templateUser);
+            var users = _userRepository.Select();
+            return Ok(users);
         }
     }
 }
