@@ -9,5 +9,6 @@ namespace SmoothDrivingAPI.Domain.Entities
     public class Vehicle : BaseEntity
     {
         public string Plate { get; set; }
+        public User User { get; set; }
     }
 }
