@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SmoothDrivingAPI.Domain.Entities
+{
+    public class Vehicle : BaseEntity
+    {
+        public string Plate { get; set; }
+    }
+}
