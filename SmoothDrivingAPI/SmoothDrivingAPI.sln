@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmoothDrivingAPI.Application", "SmoothDrivingAPI\SmoothDrivingAPI.Application.csproj", "{7BA09EB7-6DA0-4A53-9D28-4A53CA289832}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmoothDrivingAPI.WebApi", "SmoothDrivingAPI\SmoothDrivingAPI.WebApi.csproj", "{7BA09EB7-6DA0-4A53-9D28-4A53CA289832}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmoothDrivingAPI.Domain", "SmoothDrivingAPI.Domain\SmoothDrivingAPI.Domain.csproj", "{BDFF48FD-BAF5-4F0E-8C30-BEE5D758B4EE}"
 EndProject
