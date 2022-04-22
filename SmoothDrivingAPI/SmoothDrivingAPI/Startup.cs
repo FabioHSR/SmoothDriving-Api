@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace SmoothDrivingAPI
 {
@@ -32,6 +33,11 @@ namespace SmoothDrivingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IMongoClient, MongoClient>( options => 
+            {
+                var connectionString = options.GetRequiredService<IConfiguration>()["MongoConnectionString"];
+                return new MongoClient(connectionString);
+            });
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -57,26 +63,27 @@ namespace SmoothDrivingAPI
 
             services.AddDbContext<APIContext>(options =>
             {
-                if (_env.IsDevelopment())
-                    options.UseInMemoryDatabase("InMemoryDb");
+                //if (_env.IsDevelopment())
+                options.UseInMemoryDatabase("InMemoryDb");
             });
 
             services.AddScoped<DbContext, APIContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDataRepository, DataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, APIContext context)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmoothDrivingAPI v1"));
+            //if (env.IsDevelopment())
+            //{
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmoothDrivingAPI v1"));
 
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-            }
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+            //}
 
             app.UseHttpsRedirection();
 
