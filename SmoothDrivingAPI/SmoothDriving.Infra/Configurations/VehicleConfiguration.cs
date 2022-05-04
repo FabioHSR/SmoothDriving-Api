@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmoothDrivingAPI.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using SmoothDrivingAPI.Domain.Enums;
 namespace SmoothDriving.Infra.Data.Configurations
 {
     public class VehicleConfiguration : IEntityTypeConfiguration<Vehicle>
@@ -18,7 +13,15 @@ namespace SmoothDriving.Infra.Data.Configurations
                     {
                         Id = 1,
                         Plate = "ABC-1231",
-                        UserId = 1
+                        Manufacturer = "Volkswagen",
+                        Model = "Fusca",
+                        Transmission = "Manual",
+                        Year = "2020",
+                        Fuel = "Gasolina",
+                        Color = "Preto",
+                        IPVA = IPVAEnum.Pago,
+                        Score = "10",
+                        CNH = ""
                     }
                 );
         }

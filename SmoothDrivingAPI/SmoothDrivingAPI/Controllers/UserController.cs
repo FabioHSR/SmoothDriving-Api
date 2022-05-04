@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SmoothDrivingAPI.Application.Models;
 using SmoothDrivingAPI.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace SmoothDrivingAPI.Controllers
 {
@@ -25,6 +19,7 @@ namespace SmoothDrivingAPI.Controllers
         }
 
         [HttpGet]
+        [Route("/All")]
         public IActionResult Get()
         {
             var users = _userRepository.Select();
