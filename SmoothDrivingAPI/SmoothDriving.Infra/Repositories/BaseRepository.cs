@@ -1,49 +1,49 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MongoDB.Driver;
 using SmoothDrivingAPI.Domain.Entities;
-using SmoothDrivingAPI.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using SmoothDrivingAPI.Domain.Interfaces;
+using MongoDB.Bson;
 namespace SmoothDriving.Infra.Data.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        protected readonly DbContext dbContext;
-        public BaseRepository(DbContext dbContext)
+        private IMongoCollection<TEntity> _dataCollection;
+        public BaseRepository(IMongoClient mongoClient)
         {
-            this.dbContext = dbContext;
+            var database = mongoClient.GetDatabase("SmoothDrivingDb");
+            _dataCollection = database.GetCollection<TEntity>("brokerSimulation");
+        }
+        public IList<TEntity> Select()
+        {
+            return _dataCollection.Find(e => true).ToList();
         }
 
-        public virtual void Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
-            dbContext.Set<TEntity>().Remove(entity);
-        }
-        public virtual void Delete(int id)
-        {
-            var entity = Select(id);
-            dbContext.Set<TEntity>().Remove(entity);
+            throw new NotImplementedException();
         }
 
-        public virtual void InsertOrUpdate(TEntity entity)
+        public void Delete(ObjectId id)
         {
-            dbContext.Set<TEntity>().Update(entity);
+            throw new NotImplementedException();
         }
 
-        public virtual TEntity Select(int id)
+        public void InsertOrUpdate(TEntity entity)
         {
-            return dbContext.Set<TEntity>().Find(id);
+            throw new NotImplementedException();
         }
 
-        public virtual IList<TEntity> Select()
-        {
-            return dbContext.Set<TEntity>().ToList();
-        }
         public void SaveChanges()
         {
-            dbContext.SaveChanges();
+            throw new NotImplementedException();
         }
+
+        public TEntity Select(ObjectId id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

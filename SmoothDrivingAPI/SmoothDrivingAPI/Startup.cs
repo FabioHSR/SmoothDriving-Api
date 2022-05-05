@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using SmoothDriving.Infra.Data.Context;
 using SmoothDriving.Infra.Data.Repositories;
 using SmoothDrivingAPI.Domain.Interfaces;
+using MongoDB.Driver;
 
 namespace SmoothDrivingAPI
 {
@@ -26,6 +27,11 @@ namespace SmoothDrivingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IMongoClient, MongoClient>( options => 
+            {
+                var connectionString = options.GetRequiredService<IConfiguration>()["MongoConnectionString"];
+                return new MongoClient(connectionString);
+            });
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -58,6 +64,7 @@ namespace SmoothDrivingAPI
             services.AddScoped<DbContext, APIContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<ITripRepository, TripRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +88,7 @@ namespace SmoothDrivingAPI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("default", "{controller=Home}");
                 endpoints.MapControllers();
             });
         }

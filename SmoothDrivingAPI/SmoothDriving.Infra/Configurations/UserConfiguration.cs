@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmoothDrivingAPI.Domain.Entities;
+using MongoDB.Bson;
 
 namespace SmoothDriving.Infra.Data.Configurations
 {
@@ -11,14 +12,14 @@ namespace SmoothDriving.Infra.Data.Configurations
             builder.HasData(
                     new User
                     {
-                        Id = 1,
+                        Id = new ObjectId(),
                         Name = "Fábio Rocha",
                         Email = "fhdsr1@gmail.com",
                         Password = "1234"
                     },
                     new User
                     {
-                        Id = 2,
+                        Id = new ObjectId(),
                         Name = "Guilherme Xavier",
                         Email = "guixavi@gmail.com",
                         Password = "1324"

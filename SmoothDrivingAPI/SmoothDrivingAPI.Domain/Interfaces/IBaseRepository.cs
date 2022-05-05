@@ -1,9 +1,6 @@
 ﻿using SmoothDrivingAPI.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace SmoothDrivingAPI.Domain.Interfaces
 {
@@ -11,8 +8,8 @@ namespace SmoothDrivingAPI.Domain.Interfaces
     {
         void InsertOrUpdate(TEntity entity); 
         void Delete(TEntity entity);
-        void Delete(int id);
-        TEntity Select(int id);
+        void Delete(ObjectId id);
+        TEntity Select(ObjectId id);
         IList<TEntity> Select();
         void SaveChanges();
     }

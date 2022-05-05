@@ -6,7 +6,7 @@ namespace SmoothDrivingAPI.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+   [Route("api/v{version:apiVersion}/[controller]")]
     public class VehicleController : ControllerBase
     {
         private readonly ILogger<VehicleController> _logger;
@@ -19,6 +19,7 @@ namespace SmoothDrivingAPI.Controllers
         }
 
         [HttpGet]
+        [Route("All")]
         public IActionResult Get()
         {
             var Vehicles = _vehicleRepository.Select();

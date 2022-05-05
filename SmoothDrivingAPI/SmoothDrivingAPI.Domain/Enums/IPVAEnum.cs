@@ -2,7 +2,7 @@ namespace SmoothDrivingAPI.Domain.Enums
 {
     public enum IPVAEnum
     {
-        Pago,
-        NaoPago
+        Pago = 1,
+        NaoPago = 0
     }
 }

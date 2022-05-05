@@ -7,14 +7,14 @@ namespace SmoothDrivingAPI.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserController : ControllerBase
+    public class TripController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
-        private readonly IUserRepository _userRepository;
+        private readonly ILogger<TripController> _logger;
+        private readonly ITripRepository _tripRepository;
 
-        public UserController(ILogger<UserController> logger, IUserRepository userRepository)
+        public TripController(ILogger<TripController> logger, ITripRepository TripRepository)
         {
-            _userRepository = userRepository;
+            _tripRepository = TripRepository;
             _logger = logger;
         }
 
@@ -22,8 +22,8 @@ namespace SmoothDrivingAPI.Controllers
         [Route("All")]
         public IActionResult Get()
         {
-            var users = _userRepository.Select();
-            return Ok(users);
+            var Trips = _tripRepository.Select();
+            return Ok(Trips);
         }
     }
 }
