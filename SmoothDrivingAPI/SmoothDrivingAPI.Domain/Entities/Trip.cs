@@ -9,6 +9,6 @@ namespace SmoothDrivingAPI.Domain.Entities
         public TimeSpan Duration { get; set; }
         public EventsCount EventsCount { get; set; }
         public int MaxRPMReached { get; set; }
-        public int MaxRPMSpeed { get; set; }
+        public int MaxSpeedReached { get; set; }
     }
 }

@@ -12,14 +12,14 @@ namespace SmoothDriving.Infra.Data.Configurations
             builder.HasData(
                     new User
                     {
-                        Id = new ObjectId(),
+                        Id = "1",
                         Name = "Fábio Rocha",
                         Email = "fhdsr1@gmail.com",
                         Password = "1234"
                     },
                     new User
                     {
-                        Id = new ObjectId(),
+                        Id = "2",
                         Name = "Guilherme Xavier",
                         Email = "guixavi@gmail.com",
                         Password = "1324"

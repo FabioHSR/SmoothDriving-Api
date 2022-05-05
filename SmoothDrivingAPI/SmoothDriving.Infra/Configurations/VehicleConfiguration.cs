@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmoothDrivingAPI.Domain.Entities;
+using MongoDB.Bson;
 using SmoothDrivingAPI.Domain.Enums;
 namespace SmoothDriving.Infra.Data.Configurations
 {
@@ -11,7 +12,7 @@ namespace SmoothDriving.Infra.Data.Configurations
             builder.HasData(
                     new 
                     {
-                        Id = 1,
+                        Id = "3",
                         Plate = "ABC-1231",
                         Manufacturer = "Volkswagen",
                         Model = "Fusca",
@@ -20,8 +21,10 @@ namespace SmoothDriving.Infra.Data.Configurations
                         Fuel = "Gasolina",
                         Color = "Preto",
                         IPVA = IPVAEnum.Pago,
-                        Score = "10",
-                        CNH = ""
+                        Score = 0.0,
+                        CNH = "",
+                        MaxSpeedReached = 180,
+                        MaxRPMReached = 6500
                     }
                 );
         }

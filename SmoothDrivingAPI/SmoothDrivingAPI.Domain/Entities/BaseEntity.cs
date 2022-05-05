@@ -5,6 +5,7 @@ namespace SmoothDrivingAPI.Domain.Entities
     public class BaseEntity
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
     }
 }

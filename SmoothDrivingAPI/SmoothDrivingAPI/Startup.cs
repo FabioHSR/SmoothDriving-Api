@@ -57,7 +57,7 @@ namespace SmoothDrivingAPI
 
             services.AddDbContext<APIContext>(options =>
             {
-                if (_env.IsDevelopment())
+                // if (_env.IsDevelopment())
                     options.UseInMemoryDatabase("InMemoryDb");
             });
 
@@ -70,15 +70,15 @@ namespace SmoothDrivingAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, APIContext context)
         {
-            if (env.IsDevelopment())
-            {
+            // if (env.IsDevelopment())
+            // {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmoothDrivingAPI v1"));
 
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-            }
+            // }
 
             app.UseHttpsRedirection();
 
@@ -88,7 +88,6 @@ namespace SmoothDrivingAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller=Home}");
                 endpoints.MapControllers();
             });
         }

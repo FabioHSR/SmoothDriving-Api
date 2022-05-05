@@ -10,10 +10,10 @@ namespace SmoothDriving.Infra.Data.Repositories
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         private IMongoCollection<TEntity> _dataCollection;
-        public BaseRepository(IMongoClient mongoClient)
+        public BaseRepository(IMongoClient mongoClient, string collectionName)
         {
-            var database = mongoClient.GetDatabase("SmoothDrivingDb");
-            _dataCollection = database.GetCollection<TEntity>("brokerSimulation");
+            var database = mongoClient.GetDatabase("smooth-driving-db");
+            _dataCollection = database.GetCollection<TEntity>(collectionName);
         }
         public IList<TEntity> Select()
         {

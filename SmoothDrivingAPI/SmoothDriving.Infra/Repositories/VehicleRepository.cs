@@ -5,6 +5,6 @@ namespace SmoothDriving.Infra.Data.Repositories
 {
     public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
     {
-        public VehicleRepository(IMongoClient mongoClient) : base(mongoClient){    }
+        public VehicleRepository(IMongoClient mongoClient) : base(mongoClient, "Vehicle"){    }
     }
 }

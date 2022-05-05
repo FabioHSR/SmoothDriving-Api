@@ -6,8 +6,6 @@ namespace SmoothDriving.Infra.Data.Repositories
 {
     public class TripRepository : BaseRepository<Trip>, ITripRepository
     { 
-        public TripRepository(IMongoClient mongoClient) : base(mongoClient){
-
-        }
+        public TripRepository(IMongoClient mongoClient) : base(mongoClient, "Trip"){    }
     }
 }
