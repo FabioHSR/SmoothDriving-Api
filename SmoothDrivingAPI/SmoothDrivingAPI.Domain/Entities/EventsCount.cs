@@ -1,12 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace SmoothDrivingAPI.Domain.Entities
 {
+    [BsonIgnoreExtraElements]
     public class EventsCount
     {
         public EventsCount(
@@ -25,6 +21,7 @@ namespace SmoothDrivingAPI.Domain.Entities
             this.FrenagemBrusca = FrenagemBrusca;
         }
         [BsonId]
+        [BsonIgnore]
         public ObjectId Id { get; set; }
         public int CurvaEsquerda {get; set;}
         public int CurvaDireita {get; set;}

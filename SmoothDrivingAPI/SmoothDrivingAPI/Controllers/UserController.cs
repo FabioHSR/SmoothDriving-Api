@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmoothDrivingAPI.Domain.Entities;
 using SmoothDrivingAPI.Domain.Interfaces;
 
 namespace SmoothDrivingAPI.Controllers
@@ -24,6 +25,14 @@ namespace SmoothDrivingAPI.Controllers
         {
             var users = _userRepository.Select();
             return Ok(users);
+        }
+        
+        [HttpPost]
+        [Route("Create")]
+        public IActionResult Create([FromBody] User user)
+        {
+            _userRepository.InsertOrUpdate(user);
+            return Ok(user);
         }
     }
 }
