@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmoothDrivingAPI.Domain.Entities;
 using SmoothDrivingAPI.Domain.Interfaces;
 
 namespace SmoothDrivingAPI.Controllers
@@ -24,6 +25,35 @@ namespace SmoothDrivingAPI.Controllers
         {
             var Vehicles = _vehicleRepository.Select();
             return Ok(Vehicles);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get([FromRoute] string Id)
+        {
+            var Vehicle = _vehicleRepository.Select(Id);
+            return Ok(Vehicle);
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        public void Create([FromBody] Vehicle vehicle)
+        {
+            _vehicleRepository.Insert(vehicle);
+        }
+        
+        [HttpPut]
+        [Route("{id}")]
+        public void Update([FromBody] Vehicle vehicle, [FromRoute] string Id)
+        {
+            _vehicleRepository.Update(vehicle, Id);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public void Delete([FromRoute] string Id)
+        {
+            _vehicleRepository.Delete(Id);
         }
     }
 }

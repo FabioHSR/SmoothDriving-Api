@@ -9,6 +9,7 @@ using SmoothDriving.Infra.Data.Context;
 using SmoothDriving.Infra.Data.Repositories;
 using SmoothDrivingAPI.Domain.Interfaces;
 using MongoDB.Driver;
+using SmoothDrivingAPI.Services;
 
 namespace SmoothDrivingAPI
 {
@@ -62,6 +63,7 @@ namespace SmoothDrivingAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<ITripRepository, TripRepository>();
+            services.AddScoped<ITripService, TripService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,15 +1,16 @@
 ﻿using MongoDB.Driver;
 using SmoothDrivingAPI.Domain.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SmoothDrivingAPI.Domain.Interfaces;
 using MongoDB.Bson;
+
 namespace SmoothDriving.Infra.Data.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         private IMongoCollection<TEntity> _dataCollection;
+
         public BaseRepository(IMongoClient mongoClient, string collectionName)
         {
             var database = mongoClient.GetDatabase("smooth-driving-db");
@@ -22,27 +23,33 @@ namespace SmoothDriving.Infra.Data.Repositories
 
         public void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dataCollection.DeleteOne(CreateIdFilter(entity.Id));
         }
 
-        public void Delete(ObjectId id)
+        public void Delete(string Id)
         {
-            throw new NotImplementedException();
+            _dataCollection.DeleteOneAsync(
+                CreateIdFilter(Id));
         }
 
-        public void InsertOrUpdate(TEntity entity)
+        public void Insert(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dataCollection.InsertOne(entity);
+        }
+        public void Update(TEntity entity, string Id)
+        {
+            entity.Id = Id;
+            _dataCollection.ReplaceOne(
+                CreateIdFilter(Id), entity);
         }
 
-        public void SaveChanges()
+        public TEntity Select(string Id)
         {
-            throw new NotImplementedException();
+            return _dataCollection.Find(CreateIdFilter(Id)).FirstOrDefault();
         }
 
-        public TEntity Select(ObjectId id)
-        {
-            throw new NotImplementedException();
+        private FilterDefinition<TEntity> CreateIdFilter(string Id){
+            return Builders<TEntity>.Filter.Eq("_id", new ObjectId(Id));
         }
 
     }

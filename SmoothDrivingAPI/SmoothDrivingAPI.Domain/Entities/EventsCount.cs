@@ -1,10 +1,14 @@
-﻿using MongoDB.Bson;
+﻿using System.Text.Json.Serialization;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 namespace SmoothDrivingAPI.Domain.Entities
 {
     [BsonIgnoreExtraElements]
     public class EventsCount
     {
+
+        public EventsCount(){   }
+
         public EventsCount(
             int CurvaEsquerda, 
             int CurvaDireita,
@@ -20,9 +24,6 @@ namespace SmoothDrivingAPI.Domain.Entities
             this.AceleracaoBrusca = AceleracaoBrusca;
             this.FrenagemBrusca = FrenagemBrusca;
         }
-        [BsonId]
-        [BsonIgnore]
-        public ObjectId Id { get; set; }
         public int CurvaEsquerda {get; set;}
         public int CurvaDireita {get; set;}
         public int TrocaFaixaEsquerda {get; set;}

@@ -6,12 +6,12 @@ namespace SmoothDrivingAPI.Domain.Entities
     public class BaseEntity
     {
         public BaseEntity(){
-            Id = ObjectId.GenerateNewId();
+            Id = ObjectId.GenerateNewId().ToString();
         }
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [JsonIgnore]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
     }
 }

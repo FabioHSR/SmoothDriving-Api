@@ -26,13 +26,35 @@ namespace SmoothDrivingAPI.Controllers
             var users = _userRepository.Select();
             return Ok(users);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get([FromRoute] string id)
+        {
+            var User = _userRepository.Select(id);
+            return Ok(User);
+        }
         
         [HttpPost]
         [Route("Create")]
         public IActionResult Create([FromBody] User user)
         {
-            _userRepository.InsertOrUpdate(user);
+            _userRepository.Insert(user);
             return Ok(user);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public void Update([FromBody] User user, [FromRoute] string Id)
+        {
+            _userRepository.Update(user, Id);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public void Delete([FromRoute] string Id)
+        {
+            _userRepository.Delete(Id);
         }
     }
 }
