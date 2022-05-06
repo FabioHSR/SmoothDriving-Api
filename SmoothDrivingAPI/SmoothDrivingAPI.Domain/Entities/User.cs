@@ -12,7 +12,6 @@ namespace SmoothDrivingAPI.Domain.Entities
         public string Name { get; set; }
         public string Password { get; set; }
 
-        // [JsonIgnore]
         public List<string> Vehicles { get; set; } = new();
     }
 }

@@ -6,7 +6,7 @@ namespace SmoothDrivingAPI.Domain.Entities
         public string Plate { get; set; }
         public string Manufacturer { get; set; }
         public string Model { get; set; }
-        public string Transmission { get; set; }
+        public TransmissionsEnum Transmission { get; set; }
         public string Year { get; set; }
         public string Fuel { get; set; }
         public string Color { get; set; }

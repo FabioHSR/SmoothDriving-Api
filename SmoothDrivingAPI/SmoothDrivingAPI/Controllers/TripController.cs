@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmoothDrivingAPI.Domain.Entities;
 using SmoothDrivingAPI.Domain.Interfaces;
@@ -38,22 +40,35 @@ namespace SmoothDrivingAPI.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public void Create([FromBody] Trip trip)
-        {            
-            trip.Duration = _tripService.calculateTripDuration(
-                trip.DateTimeStart, trip.DateTimeEnd);
+        public IActionResult Create([FromBody] Trip trip)
+        {
+            Tuple<List<string>, bool> Validate = _tripService.ValidateDocument(trip);
 
-            _tripRepository.Insert(trip);
+            if(Validate.Item2 == true){
+                trip.Duration = _tripService.calculateTripDuration(
+                    trip.DateTimeStart, trip.DateTimeEnd);
+
+                _tripRepository.Insert(trip);
+
+                return Ok(trip);
+            } 
+            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
         }
 
         [HttpPut]
         [Route("{Id}")]
-        public void Update([FromBody] Trip trip, [FromRoute] string Id)
+        public IActionResult Update([FromBody] Trip trip, [FromRoute] string Id)
         {
-            trip.Duration = _tripService.calculateTripDuration(
-                trip.DateTimeStart, trip.DateTimeEnd);
+            Tuple<List<string>, bool> Validate = _tripService.ValidateDocument(trip);
 
-            _tripRepository.Update(trip, Id);
+            if(Validate.Item2 == true){
+                trip.Duration = _tripService.calculateTripDuration(
+                    trip.DateTimeStart, trip.DateTimeEnd);
+
+                _tripRepository.Update(trip, Id);
+                return Ok(trip);
+            }
+            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
         }
 
         [HttpDelete]

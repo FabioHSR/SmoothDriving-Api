@@ -1,13 +1,11 @@
-﻿using SmoothDrivingAPI.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SmoothDrivingAPI.Domain.Entities;
 
 namespace SmoothDrivingAPI.Domain.Interfaces
 {
     public interface IVehicleService : IBaseService<Vehicle>
     {
+        Tuple<List<string>, bool> ValidateDocument(Vehicle vehicle);
     }
 }

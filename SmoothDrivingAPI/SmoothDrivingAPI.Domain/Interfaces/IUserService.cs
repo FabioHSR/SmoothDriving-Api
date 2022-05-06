@@ -1,13 +1,15 @@
 ﻿using SmoothDrivingAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmoothDrivingAPI.Domain.Interfaces
 {
     public interface IUserService : IBaseService<User>
     {
+        Tuple<List<string>, bool> ValidateDocument(User user);
+
+        string CreateHashPassword(string password);
+
+        bool IsValidPassword(string password, string hashPassword);
     }
 }

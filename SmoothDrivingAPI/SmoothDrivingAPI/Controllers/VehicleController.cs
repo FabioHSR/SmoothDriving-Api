@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmoothDrivingAPI.Domain.Entities;
+using SmoothDrivingAPI.Domain.Enums;
 using SmoothDrivingAPI.Domain.Interfaces;
 
 namespace SmoothDrivingAPI.Controllers
@@ -28,7 +30,7 @@ namespace SmoothDrivingAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{Id}")]
         public IActionResult Get([FromRoute] string Id)
         {
             var Vehicle = _vehicleRepository.Select(Id);
@@ -39,18 +41,22 @@ namespace SmoothDrivingAPI.Controllers
         [Route("Create")]
         public void Create([FromBody] Vehicle vehicle)
         {
+            EnumUtils<IPVAEnum> enumUtils = new();
+
+            vehicle.IPVA = enumUtils.EnumNameToEnumValue(vehicle.IPVA);
+            
             _vehicleRepository.Insert(vehicle);
         }
         
         [HttpPut]
-        [Route("{id}")]
+        [Route("{Id}")]
         public void Update([FromBody] Vehicle vehicle, [FromRoute] string Id)
         {
             _vehicleRepository.Update(vehicle, Id);
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{Id}")]
         public void Delete([FromRoute] string Id)
         {
             _vehicleRepository.Delete(Id);
