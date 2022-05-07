@@ -1,0 +1,21 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace SmoothDriving.Infra.Data.Context
+{
+    public class APIContext : DbContext
+    {
+        public APIContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        // public DbSet<User> User { get; set; }
+        // public DbSet<Vehicle> Vehicle { get; set; }
+        // public DbSet<Trip> Trip { get; set; }
+
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+        // }
+
+    }
+}
