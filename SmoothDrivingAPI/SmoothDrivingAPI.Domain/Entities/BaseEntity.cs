@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 namespace SmoothDrivingAPI.Domain.Entities
@@ -6,6 +7,7 @@ namespace SmoothDrivingAPI.Domain.Entities
     public class BaseEntity
     {
         public BaseEntity(){
+            Console.WriteLine("Creating Entity Id...");
             Id = ObjectId.GenerateNewId().ToString();
         }
 

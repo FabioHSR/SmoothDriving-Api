@@ -48,12 +48,18 @@ namespace SmoothDrivingAPI.Services
       var trimmedEmail = email.Trim();
       
       List<char> mustHaveChars = new List<char> { '@', '.' };
+      List<string> mustNotHaveStrings = new List<string> { "@.", ".@" };
 
       if (mustHaveChars.Any(c => (
-        trimmedEmail.EndsWith(c) || !trimmedEmail.Contains(c)
+        trimmedEmail.EndsWith(c) || !trimmedEmail.Contains(c) || trimmedEmail.StartsWith(c)
       ))){
         return false;
       }
+      
+      if(mustNotHaveStrings.Any(s => trimmedEmail.Contains(s))){
+        return false;
+      }
+
       try {
           var addr = new System.Net.Mail.MailAddress(email);
           return addr.Address == trimmedEmail;

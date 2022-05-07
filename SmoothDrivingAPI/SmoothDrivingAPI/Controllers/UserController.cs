@@ -14,17 +14,22 @@ namespace SmoothDrivingAPI.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserRepository _userRepository;
-
+        private readonly IVehicleRepository _vehicleRepository;
         private readonly IUserService _userService;
+        private readonly IVehicleService _vehicleService;
 
         public UserController(
             ILogger<UserController> logger, 
-            IUserRepository userRepository, 
-            IUserService userService)
+            IUserRepository userRepository,
+            IVehicleRepository vehicleRepository, 
+            IUserService userService,
+            IVehicleService vehicleService)
         {
             _userService = userService;
             _userRepository = userRepository;
             _logger = logger;
+            _vehicleService = vehicleService;
+            _vehicleRepository = vehicleRepository;
         }
 
         [HttpGet]
@@ -47,13 +52,14 @@ namespace SmoothDrivingAPI.Controllers
         [Route("Create")]
         public IActionResult Create([FromBody] User user)
         {
+            Console.WriteLine("---------- User: ", user);
             Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
 
             if(Validate.Item2 == true){
                 user.Password = _userService.CreateHashPassword(user.Password);
                 
                 _userRepository.Insert(user);
-                return Ok(user);
+                return Ok(user.Id);
             }
 
             return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
@@ -75,15 +81,35 @@ namespace SmoothDrivingAPI.Controllers
         }
 
         [HttpPut]
-        [Route("AddVehicle/{UserId}/{CarId}")]
-        public IActionResult AddVehicle([FromRoute] string UserId, [FromRoute] string CarId)
+        [Route("AddVehicle/{UserId}/{VehicleId}")]
+        public IActionResult AddVehicle([FromRoute] string UserId, [FromRoute] string VehicleId)
         {
             User user = _userRepository.Select(UserId);
 
-            user.Vehicles.Add(CarId);
+            user.Vehicles.Add(VehicleId);
 
             _userRepository.Update(user, UserId);
-            return Ok(CarId);
+            return Ok(VehicleId);
+        }
+
+        [HttpPut]
+        [Route("AddVehicle/{UserId}")]
+        public IActionResult AddVehicle([FromRoute] string UserId, [FromBody] Vehicle vehicle)
+        {
+            Tuple<List<string>, bool> Validate = _vehicleService.ValidateDocument(vehicle);
+
+            if(Validate.Item2 == true){
+                _vehicleRepository.Insert(vehicle);
+
+                User user = _userRepository.Select(UserId);
+
+                user.Vehicles.Add(vehicle.Id);
+
+                _userRepository.Update(user, UserId);
+
+                return Ok();
+            }
+            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
         }
 
         [HttpDelete]

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SmoothDrivingAPI.Domain.Interfaces;
 using MongoDB.Bson;
+using System;
 
 namespace SmoothDriving.Infra.Data.Repositories
 {
@@ -34,8 +35,10 @@ namespace SmoothDriving.Infra.Data.Repositories
 
         public void Insert(TEntity entity)
         {
+            Console.WriteLine("Inserting entity...");
             _dataCollection.InsertOne(entity);
         }
+
         public void Update(TEntity entity, string Id)
         {
             entity.Id = Id;

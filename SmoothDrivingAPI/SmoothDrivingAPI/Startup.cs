@@ -60,11 +60,16 @@ namespace SmoothDrivingAPI
             });
 
             services.AddScoped<DbContext, APIContext>();
+
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IVehicleService, VehicleService>();
+
             services.AddScoped<ITripRepository, TripRepository>();
             services.AddScoped<ITripService, TripService>();
-            services.AddScoped<IUserService, UserService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +85,7 @@ namespace SmoothDrivingAPI
                 context.Database.EnsureCreated();
             // }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
