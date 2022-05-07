@@ -63,29 +63,35 @@ namespace SmoothDrivingAPI.Controllers
         [Route("{Id}")]
         public IActionResult Update([FromBody] User user, [FromRoute] string Id)
         {
-            if(_userService.IsValidPassword(user.Password, user.Password)){
-                _userRepository.Update(user, Id);
-                return Ok();
+            Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
+
+            if(Validate.Item2 == true){
+                if(_userService.IsValidPassword(user.Password, user.Password)){
+                    _userRepository.Update(user, Id);
+                    return Ok();
+                }
             }
             return BadRequest();
         }
 
         [HttpPut]
         [Route("AddVehicle/{UserId}/{CarId}")]
-        public void AddVehicle([FromRoute] string UserId, [FromRoute] string CarId)
+        public IActionResult AddVehicle([FromRoute] string UserId, [FromRoute] string CarId)
         {
             User user = _userRepository.Select(UserId);
 
             user.Vehicles.Add(CarId);
 
             _userRepository.Update(user, UserId);
+            return Ok(CarId);
         }
 
         [HttpDelete]
         [Route("{Id}")]
-        public void Delete([FromRoute] string Id)
+        public IActionResult Delete([FromRoute] string Id)
         {
             _userRepository.Delete(Id);
+            return Ok(Id);
         }
     }
 }

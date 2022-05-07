@@ -48,9 +48,13 @@ namespace SmoothDriving.Infra.Data.Repositories
             return _dataCollection.Find(CreateIdFilter(Id)).FirstOrDefault();
         }
 
+        public bool Exists(string Id)
+        {
+            return _dataCollection.Find(CreateIdFilter(Id)).Any();
+        }
+
         private FilterDefinition<TEntity> CreateIdFilter(string Id){
             return Builders<TEntity>.Filter.Eq("_id", new ObjectId(Id));
         }
-
     }
 }

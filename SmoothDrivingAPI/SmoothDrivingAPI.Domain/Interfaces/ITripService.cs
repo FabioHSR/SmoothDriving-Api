@@ -8,6 +8,5 @@ namespace SmoothDrivingAPI.Domain.Interfaces
     {
         int calculateTripDuration(DateTime start, DateTime end);
         Tuple<List<string>, bool> ValidateDocument(Trip trip);
-        bool isValidEndDate(DateTime DateTimeStart, DateTime DateTimeEnd);
     }
 }

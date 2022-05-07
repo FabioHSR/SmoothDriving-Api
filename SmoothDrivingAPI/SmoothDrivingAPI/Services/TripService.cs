@@ -5,28 +5,50 @@ using SmoothDrivingAPI.Domain.Interfaces;
 
 namespace SmoothDrivingAPI.Services
 {
-    public class TripService : BaseService<Trip>, ITripService
+  public class TripService : BaseService<Trip>, ITripService
+  {
+    private readonly IUserRepository _userRepository;
+    private readonly IVehicleRepository _vehicleRepository;
+    public TripService(IUserRepository _userRepository, IVehicleRepository _vehicleRepository)
     {
-        public int calculateTripDuration(DateTime start, DateTime end){
-            return (int)(end - start).TotalMilliseconds;
-        }
-
-    public Tuple<List<string>, bool> ValidateDocument(Trip trip)
-    {
-      bool validation = true;
+      this._userRepository = _userRepository;
+      this._vehicleRepository = _vehicleRepository;
+    }
+    public Tuple<List<string>, bool> ValidateDocument(Trip trip){
       List<string> invalidFields = new List<string>();
 
-      if(!isValidEndDate(trip.DateTimeStart, trip.DateTimeEnd)){
-        validation = false;
-        invalidFields.Add("DateTimeEnd");
-      }
+      ValidateEndDate(trip.DateTimeStart, trip.DateTimeEnd, ref invalidFields);
 
-      return Tuple.Create(invalidFields, validation);
+      ValidateIfChildDocumentsExist(ref invalidFields, trip.UserId, trip.VehicleId);
+
+      return ServiceUtils.ValidateInvalidFields(invalidFields);
+    }
+    public int calculateTripDuration(DateTime start, DateTime end){
+      return (int)(end - start).TotalMilliseconds;
     }
 
-    public bool isValidEndDate(DateTime DateTimeStart, DateTime DateTimeEnd)
-    {
-      return DateTimeEnd > DateTimeStart;
+    private void ValidateEndDate(
+      DateTime DateTimeStart, 
+      DateTime DateTimeEnd, 
+      ref List<string> invalidFields){
+
+      if(DateTimeStart > DateTimeEnd){
+        invalidFields.Add("DateTimeEnd must be greater than DateTimeStart.");
+      }
+    }
+
+    private void ValidateIfChildDocumentsExist(
+      ref List<string> invalidFields, 
+      string UserId, 
+      string VehicleId){
+
+      if(!_userRepository.Exists(UserId)){
+        invalidFields.Add("UserId does not exist.");
+      }
+
+      if(!_vehicleRepository.Exists(VehicleId)){
+        invalidFields.Add("VehicleId does not exist.");
+      }
     }
   }
 }

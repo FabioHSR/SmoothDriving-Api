@@ -12,5 +12,6 @@ namespace SmoothDrivingAPI.Domain.Interfaces
         void Delete(string Id);
         TEntity Select(string Id);
         IList<TEntity> Select();
+        bool Exists(string Id);
     }
 }

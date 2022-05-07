@@ -41,10 +41,6 @@ namespace SmoothDrivingAPI.Controllers
         [Route("Create")]
         public void Create([FromBody] Vehicle vehicle)
         {
-            EnumUtils<IPVAEnum> enumUtils = new();
-
-            vehicle.IPVA = enumUtils.EnumNameToEnumValue(vehicle.IPVA);
-            
             _vehicleRepository.Insert(vehicle);
         }
         

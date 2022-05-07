@@ -8,17 +8,39 @@ namespace SmoothDrivingAPI.Services
 {
   public class UserService : BaseService<User>, IUserService
   {
+    private readonly IVehicleRepository _vehicleRepository;
+    public UserService(IVehicleRepository _vehicleRepository)
+    {
+      this._vehicleRepository = _vehicleRepository;
+    }
+
     public Tuple<List<string>, bool> ValidateDocument(User user)
     {
-      bool validation = true;
       List<string> invalidFields = new List<string>();
 
-      if(!IsValidEmail(user.Email)){
-        validation = false;
-        invalidFields.Add("Email");
-      }
+      ValidateEmail(user.Email, ref invalidFields);
 
-      return Tuple.Create(invalidFields, validation);
+      ValidateIfChildDocumentsExist(ref invalidFields, user.Vehicles);
+
+      return ServiceUtils.ValidateInvalidFields(invalidFields);
+    }
+
+    private void ValidateIfChildDocumentsExist(
+      ref List<string> invalidFields, 
+      List<string> vehicleIds){
+
+      foreach(string vehicleId in vehicleIds){
+        if(!_vehicleRepository.Exists(vehicleId)){
+          invalidFields.Add($"VehicleId {vehicleId} does not exist.");
+        }
+      }
+    }
+
+    private void ValidateEmail(string Email, ref List<string> invalidFields)
+    {
+      if(!IsValidEmail(Email)){
+        invalidFields.Add("Email with invalid format.");
+      }
     }
 
     public bool IsValidEmail(string email)
