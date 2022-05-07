@@ -52,7 +52,7 @@ namespace SmoothDrivingAPI.Controllers
         [Route("Create")]
         public IActionResult Create([FromBody] User user)
         {
-            Console.WriteLine("---------- User: ", user);
+            Console.WriteLine("----------  User: ", user);
             Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
 
             if(Validate.Item2 == true){
