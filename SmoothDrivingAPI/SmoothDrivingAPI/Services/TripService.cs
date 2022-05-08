@@ -42,11 +42,11 @@ namespace SmoothDrivingAPI.Services
       string UserId, 
       string VehicleId){
 
-      if(!_userRepository.Exists(UserId)){
+      if(!_userRepository.Exists("_id", UserId)){
         invalidFields.Add("UserId does not exist.");
       }
 
-      if(!_vehicleRepository.Exists(VehicleId)){
+      if(!_vehicleRepository.Exists("_id", VehicleId)){
         invalidFields.Add("VehicleId does not exist.");
       }
     }

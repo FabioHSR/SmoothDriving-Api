@@ -52,17 +52,37 @@ namespace SmoothDrivingAPI.Controllers
         [Route("Create")]
         public IActionResult Create([FromBody] User user)
         {
-            Console.WriteLine("----------  User: ", user);
             Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
 
-            if(Validate.Item2 == true){
-                user.Password = _userService.CreateHashPassword(user.Password);
-                
-                _userRepository.Insert(user);
-                return Ok(user.Id);
+            if(Validate.Item2 == false){
+                return BadRequest(string.Join(", ", Validate.Item1));
+            }
+            
+            user.Email = user.Email.ToLower();
+            user.Password = _userService.CreateHashPassword(user.Password);
+            _userRepository.Insert(user);
+
+            return Ok(user.Id);
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login([FromBody] User user)
+        {
+            Console.WriteLine("Login");
+
+            if(!_userRepository.Exists("Email", user.Email)){
+                return BadRequest("Falha na autenticação.");
             }
 
-            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
+            User User = _userRepository.SelectByEmail(user.Email);
+            
+            Console.WriteLine("Validando password");
+            
+            if(_userService.IsValidPassword(user.Password, User.Password))
+                return Ok(User);
+
+            return BadRequest("Falha na autenticação.");
         }
 
         [HttpPut]
@@ -71,13 +91,16 @@ namespace SmoothDrivingAPI.Controllers
         {
             Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
 
-            if(Validate.Item2 == true){
-                if(_userService.IsValidPassword(user.Password, user.Password)){
-                    _userRepository.Update(user, Id);
-                    return Ok();
-                }
+            if(Validate.Item2 == false){
+                return BadRequest(string.Join(", ", Validate.Item1));
             }
-            return BadRequest();
+
+            if(!_userService.IsValidPassword(user.Password, user.Password)){
+                return BadRequest("Invalid password.");
+            }
+
+            _userRepository.Update(user, Id);
+            return Ok();
         }
 
         [HttpPut]
@@ -96,20 +119,31 @@ namespace SmoothDrivingAPI.Controllers
         [Route("AddVehicle/{UserId}")]
         public IActionResult AddVehicle([FromRoute] string UserId, [FromBody] Vehicle vehicle)
         {
+            Console.WriteLine("AddVehicle: " + vehicle);
             Tuple<List<string>, bool> Validate = _vehicleService.ValidateDocument(vehicle);
 
-            if(Validate.Item2 == true){
-                _vehicleRepository.Insert(vehicle);
-
-                User user = _userRepository.Select(UserId);
-
-                user.Vehicles.Add(vehicle.Id);
-
-                _userRepository.Update(user, UserId);
-
-                return Ok();
+            if(Validate.Item2 == false){
+                return BadRequest(string.Join(", ", Validate.Item1));
             }
-            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
+
+            string VehicleId = vehicle.Id;
+            Vehicle vehicleByPlate = _vehicleRepository.SelectByPlate(vehicle.Plate);
+
+            // If the vehicle already exists, use the existing id 
+            // instead of creating a new one by BaseEntity
+            if(vehicleByPlate != null){
+                VehicleId = vehicleByPlate.Id;
+            }
+
+            _vehicleRepository.Insert(vehicle);
+            
+            User user = new User();
+            user.Id = UserId;
+            user.Vehicles.Add(VehicleId);
+
+            _userRepository.Update(user, UserId);
+
+            return Ok();
         }
 
         [HttpDelete]

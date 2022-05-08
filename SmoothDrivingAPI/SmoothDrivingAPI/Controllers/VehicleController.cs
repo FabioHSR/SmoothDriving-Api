@@ -14,7 +14,6 @@ namespace SmoothDrivingAPI.Controllers
     {
         private readonly ILogger<VehicleController> _logger;
         private readonly IVehicleRepository _vehicleRepository;
-
         public VehicleController(ILogger<VehicleController> logger, IVehicleRepository VehicleRepository)
         {
             _vehicleRepository = VehicleRepository;
@@ -37,10 +36,19 @@ namespace SmoothDrivingAPI.Controllers
             return Ok(Vehicle);
         }
 
+        [HttpGet]
+        [Route("{Plate}")]
+        public IActionResult GetByPlate([FromRoute] string Plate)
+        {
+            var Vehicle = _vehicleRepository.SelectByPlate(Plate);
+            return Ok(Vehicle);
+        }
+
         [HttpPost]
         [Route("Create")]
         public void Create([FromBody] Vehicle vehicle)
         {
+            vehicle.Plate = vehicle.Plate.ToUpper();
             _vehicleRepository.Insert(vehicle);
         }
         

@@ -7,8 +7,9 @@ namespace SmoothDrivingAPI.Domain.Entities
     public class BaseEntity
     {
         public BaseEntity(){
-            Console.WriteLine("Creating Entity Id...");
-            Id = ObjectId.GenerateNewId().ToString();
+            if(Id == null){
+                Id = ObjectId.GenerateNewId().ToString();
+            }
         }
 
         [BsonId]

@@ -12,6 +12,8 @@ namespace SmoothDriving.Infra.Data.Repositories
     {
         private IMongoCollection<TEntity> _dataCollection;
 
+        private readonly string DefaultIdMongoName = "_id";
+
         public BaseRepository(IMongoClient mongoClient, string collectionName)
         {
             var database = mongoClient.GetDatabase("smooth-driving-db");
@@ -24,18 +26,17 @@ namespace SmoothDriving.Infra.Data.Repositories
 
         public void Delete(TEntity entity)
         {
-            _dataCollection.DeleteOne(CreateIdFilter(entity.Id));
+            _dataCollection.DeleteOne(CreateFilter(DefaultIdMongoName, entity.Id));
         }
 
         public void Delete(string Id)
         {
             _dataCollection.DeleteOneAsync(
-                CreateIdFilter(Id));
+                CreateFilter(DefaultIdMongoName, Id));
         }
 
         public void Insert(TEntity entity)
         {
-            Console.WriteLine("Inserting entity...");
             _dataCollection.InsertOne(entity);
         }
 
@@ -43,21 +44,33 @@ namespace SmoothDriving.Infra.Data.Repositories
         {
             entity.Id = Id;
             _dataCollection.ReplaceOne(
-                CreateIdFilter(Id), entity);
+                CreateFilter(DefaultIdMongoName, Id), entity);
+        }
+        public IFindFluent<TEntity, TEntity> FindByField(string FieldName, string FieldValue)
+        {
+            return _dataCollection.Find(CreateFilter(FieldName, FieldValue));
         }
 
         public TEntity Select(string Id)
         {
-            return _dataCollection.Find(CreateIdFilter(Id)).FirstOrDefault();
+            return FindByField(DefaultIdMongoName, Id).FirstOrDefault();
         }
 
-        public bool Exists(string Id)
+        public bool Exists(string FieldName, string FieldValue)
         {
-            return _dataCollection.Find(CreateIdFilter(Id)).Any();
+            return FindByField(FieldName, FieldValue).Any();
         }
+        private FilterDefinition<TEntity> CreateFilter(string FieldName, string FieldValue){
 
-        private FilterDefinition<TEntity> CreateIdFilter(string Id){
-            return Builders<TEntity>.Filter.Eq("_id", new ObjectId(Id));
+            if(FieldName == DefaultIdMongoName){
+                return Builders<TEntity>.Filter.Eq(DefaultIdMongoName, new ObjectId(FieldValue));
+            }
+
+            if(FieldName == "Email"){
+                FieldValue = FieldValue.ToLower();
+            }
+
+            return Builders<TEntity>.Filter.Eq(FieldName, FieldValue);
         }
     }
 }

@@ -9,9 +9,11 @@ namespace SmoothDrivingAPI.Services
   public class UserService : BaseService<User>, IUserService
   {
     private readonly IVehicleRepository _vehicleRepository;
-    public UserService(IVehicleRepository _vehicleRepository)
+    private readonly IUserRepository _userRepository;
+    public UserService(IVehicleRepository _vehicleRepository, IUserRepository _userRepository)
     {
       this._vehicleRepository = _vehicleRepository;
+      this._userRepository = _userRepository;
     }
 
     public Tuple<List<string>, bool> ValidateDocument(User user)
@@ -19,7 +21,6 @@ namespace SmoothDrivingAPI.Services
       List<string> invalidFields = new List<string>();
 
       ValidateEmail(user.Email, ref invalidFields);
-
       ValidateIfChildDocumentsExist(ref invalidFields, user.Vehicles);
 
       return ServiceUtils.ValidateInvalidFields(invalidFields);
@@ -30,7 +31,7 @@ namespace SmoothDrivingAPI.Services
       List<string> vehicleIds){
 
       foreach(string vehicleId in vehicleIds){
-        if(!_vehicleRepository.Exists(vehicleId)){
+        if(!_vehicleRepository.Exists("_id", vehicleId)){
           invalidFields.Add($"VehicleId {vehicleId} does not exist.");
         }
       }
@@ -41,9 +42,14 @@ namespace SmoothDrivingAPI.Services
       if(!IsValidEmail(Email)){
         invalidFields.Add("Email with invalid format.");
       }
+
+      if(_userRepository.EmailExists(Email)){
+        Console.WriteLine("Entrou aqui");
+        invalidFields.Add($"Email {Email} already exists.");
+      }
     }
 
-    public bool IsValidEmail(string email)
+    private bool IsValidEmail(string email)
     {
       var trimmedEmail = email.Trim();
       

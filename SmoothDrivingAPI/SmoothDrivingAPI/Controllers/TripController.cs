@@ -50,9 +50,9 @@ namespace SmoothDrivingAPI.Controllers
 
                 _tripRepository.Insert(trip);
 
-                return Ok(trip);
+                return Created("", trip);
             } 
-            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
+            return BadRequest(string.Join(", ", Validate.Item1));
         }
 
         [HttpPut]
@@ -68,7 +68,7 @@ namespace SmoothDrivingAPI.Controllers
                 _tripRepository.Update(trip, Id);
                 return Ok(trip);
             }
-            return BadRequest("Error in body: " + string.Join(", ", Validate.Item1));
+            return BadRequest(string.Join(", ", Validate.Item1));
         }
 
         [HttpDelete]

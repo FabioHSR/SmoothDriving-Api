@@ -12,9 +12,14 @@ namespace SmoothDrivingAPI.Services
     {
       List<string> invalidFields = new List<string>();
 
+      Console.WriteLine("Veículo: " + vehicle.Model);
+      Console.WriteLine("Veículo: " + vehicle.IPVA);
+      Console.WriteLine("Veículo: " + vehicle.Fuel);
+      Console.WriteLine("Veículo: " + vehicle.Transmission);
+
       ValidateYear(vehicle.Year, ref invalidFields);
 
-      ValidateEnums(vehicle.IPVA, vehicle.Fuel, vehicle.Transmission, ref invalidFields);
+      ValidateEnums(vehicle.Fuel, vehicle.Transmission, ref invalidFields);
 
       return ServiceUtils.ValidateInvalidFields(invalidFields);
     }
@@ -27,15 +32,10 @@ namespace SmoothDrivingAPI.Services
     }
 
     private void ValidateEnums(
-      string IPVA, 
       string Fuel, 
       string Transmission, 
       ref List<string> invalidFields)
     {
-      if(!Enum.IsDefined(typeof(IPVAEnum), IPVA)){
-        invalidFields.Add("IPVA is not valid.");
-      }
-
       if(!Enum.IsDefined(typeof(FuelEnum), Fuel)){
         invalidFields.Add("Fuel is not valid.");
       }
