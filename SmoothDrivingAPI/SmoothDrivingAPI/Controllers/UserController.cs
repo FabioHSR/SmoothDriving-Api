@@ -108,6 +108,12 @@ namespace SmoothDrivingAPI.Controllers
         public IActionResult AddVehicle([FromRoute] string UserId, [FromRoute] string VehicleId)
         {
             User user = _userRepository.Select(UserId);
+            
+            Console.WriteLine("UserId: " + UserId);
+
+            Console.WriteLine("Found user with Id: " + user.Id);
+            Console.WriteLine("Found user with Name: " + user.Name);
+            Console.WriteLine("Found user with Email: " + user.Email);
 
             user.Vehicles.Add(VehicleId);
 
@@ -119,31 +125,40 @@ namespace SmoothDrivingAPI.Controllers
         [Route("AddVehicle/{UserId}")]
         public IActionResult AddVehicle([FromRoute] string UserId, [FromBody] Vehicle vehicle)
         {
-            Console.WriteLine("AddVehicle: " + vehicle);
             Tuple<List<string>, bool> Validate = _vehicleService.ValidateDocument(vehicle);
 
             if(Validate.Item2 == false){
                 return BadRequest(string.Join(", ", Validate.Item1));
             }
 
-            string VehicleId = vehicle.Id;
             Vehicle vehicleByPlate = _vehicleRepository.SelectByPlate(vehicle.Plate);
 
-            // If the vehicle already exists, use the existing id 
-            // instead of creating a new one by BaseEntity
-            if(vehicleByPlate != null){
-                VehicleId = vehicleByPlate.Id;
+            if(vehicleByPlate == null){
+                Console.WriteLine("Não achou placa");
+                _vehicleRepository.Insert(vehicle);
+                vehicle.Id = vehicle.Id;
             }
 
-            _vehicleRepository.Insert(vehicle);
+            if(vehicleByPlate != null){
+                vehicle.Id = vehicleByPlate.Id;
+            }
             
-            User user = new User();
-            user.Id = UserId;
-            user.Vehicles.Add(VehicleId);
+            User user = _userRepository.Select(UserId);
+            user.Vehicles.Add(vehicle.Id);
 
             _userRepository.Update(user, UserId);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("Vehicles/{UserId}")]
+        public IActionResult GetVehicles([FromRoute] string UserId)
+        {
+            User User = _userRepository.Select(UserId);
+            List<Vehicle> vehicles = _vehicleRepository.SelectVehiclesByIds(User.Vehicles);
+
+            return Ok(vehicles);
         }
 
         [HttpDelete]

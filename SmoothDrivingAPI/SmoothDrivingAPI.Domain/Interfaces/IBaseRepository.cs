@@ -1,7 +1,5 @@
 ﻿using SmoothDrivingAPI.Domain.Entities;
 using System.Collections.Generic;
-using MongoDB.Bson;
-
 namespace SmoothDrivingAPI.Domain.Interfaces
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity

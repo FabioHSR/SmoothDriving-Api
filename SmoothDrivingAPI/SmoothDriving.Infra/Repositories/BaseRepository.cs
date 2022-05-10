@@ -24,6 +24,11 @@ namespace SmoothDriving.Infra.Data.Repositories
             return _dataCollection.Find(e => true).ToList();
         }
 
+        public List<TEntity> FindByIds(List<string> Ids)
+        {
+            return _dataCollection.Find(e => Ids.Contains(e.Id)).ToList();
+        }
+
         public void Delete(TEntity entity)
         {
             _dataCollection.DeleteOne(CreateFilter(DefaultIdMongoName, entity.Id));

@@ -18,5 +18,5 @@ namespace SmoothDriving.Infra.Data.Repositories
         {
             return base.FindByField("Email", Email.ToLower()).FirstOrDefault();
         }
-  }
+    }
 }

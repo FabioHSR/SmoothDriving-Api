@@ -7,8 +7,8 @@ namespace SmoothDrivingAPI.Domain.Enums
         Diesel,
         GNV,
         Flex,
-        Hibrido,
-        Bateria,
+        Híbrido,
+        Elétrico,
         Outro
     }
 }

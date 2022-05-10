@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SmoothDrivingAPI.Domain.Entities;
-using SmoothDrivingAPI.Domain.Enums;
 using SmoothDrivingAPI.Domain.Interfaces;
 
 namespace SmoothDrivingAPI.Controllers
@@ -46,10 +45,11 @@ namespace SmoothDrivingAPI.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public void Create([FromBody] Vehicle vehicle)
+        public IActionResult Create([FromBody] Vehicle vehicle)
         {
             vehicle.Plate = vehicle.Plate.ToUpper();
             _vehicleRepository.Insert(vehicle);
+            return Ok(vehicle);
         }
         
         [HttpPut]

@@ -1,4 +1,5 @@
-﻿using SmoothDrivingAPI.Domain.Entities;
+﻿using System.Collections.Generic;
+using SmoothDrivingAPI.Domain.Entities;
 
 namespace SmoothDrivingAPI.Domain.Interfaces
 {
