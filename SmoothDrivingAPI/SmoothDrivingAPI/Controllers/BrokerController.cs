@@ -13,11 +13,7 @@ namespace SmoothDrivingAPI.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class BrokerController: ControllerBase
-    {     
-        public BrokerController()
-        {
-        }
-
+    {
         [AllowAnonymous]
         [Route("Entities")]
         [HttpGet]
