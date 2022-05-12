@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using SmoothDrivingAPI.Domain.Entities;
 using SmoothDrivingAPI.Domain.Interfaces;
 
@@ -51,7 +52,7 @@ namespace SmoothDrivingAPI.Services
 
     private bool IsValidEmail(string email)
     {
-      var trimmedEmail = email.Trim();
+      string trimmedEmail = email.Trim();
       
       List<char> mustHaveChars = new List<char> { '@', '.' };
       List<string> mustNotHaveStrings = new List<string> { "@.", ".@" };
@@ -59,19 +60,23 @@ namespace SmoothDrivingAPI.Services
       if (mustHaveChars.Any(c => (
         trimmedEmail.EndsWith(c) || !trimmedEmail.Contains(c) || trimmedEmail.StartsWith(c)
       ))){
+        Console.WriteLine("Não tem");
+        Console.WriteLine("Email: " + trimmedEmail);
         return false;
       }
       
       if(mustNotHaveStrings.Any(s => trimmedEmail.Contains(s))){
+        Console.WriteLine("tem");
         return false;
       }
 
       try {
-          var addr = new System.Net.Mail.MailAddress(email);
-          return addr.Address == trimmedEmail;
+        var addr = new MailAddress(email);
+        return addr.Address == trimmedEmail;
       }
       catch {
-          return false;
+        Console.WriteLine("Catch");
+        return false;
       }
     }
 

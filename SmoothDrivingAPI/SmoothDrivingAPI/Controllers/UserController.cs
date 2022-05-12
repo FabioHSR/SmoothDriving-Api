@@ -91,6 +91,8 @@ namespace SmoothDrivingAPI.Controllers
         {
             Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
 
+            _vehicleRepository.AddCNHToVehicles(user.Vehicles, user.CNH);
+
             if(Validate.Item2 == false){
                 return BadRequest(string.Join(", ", Validate.Item1));
             }
@@ -108,12 +110,6 @@ namespace SmoothDrivingAPI.Controllers
         public IActionResult AddVehicle([FromRoute] string UserId, [FromRoute] string VehicleId)
         {
             User user = _userRepository.Select(UserId);
-            
-            Console.WriteLine("UserId: " + UserId);
-
-            Console.WriteLine("Found user with Id: " + user.Id);
-            Console.WriteLine("Found user with Name: " + user.Name);
-            Console.WriteLine("Found user with Email: " + user.Email);
 
             user.Vehicles.Add(VehicleId);
 

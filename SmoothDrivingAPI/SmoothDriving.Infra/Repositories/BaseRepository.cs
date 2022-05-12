@@ -23,7 +23,6 @@ namespace SmoothDriving.Infra.Data.Repositories
         {
             return _dataCollection.Find(e => true).ToList();
         }
-
         public List<TEntity> FindByIds(List<string> Ids)
         {
             return _dataCollection.Find(e => Ids.Contains(e.Id)).ToList();
@@ -55,6 +54,14 @@ namespace SmoothDriving.Infra.Data.Repositories
         {
             return _dataCollection.Find(CreateFilter(FieldName, FieldValue));
         }
+        public IFindFluent<TEntity, TEntity> FindByTwoFields(
+            string FieldName1, 
+            string FieldValue1, 
+            string FieldName2, 
+            string FieldValue2)
+        {
+            return _dataCollection.Find(CreateFilterByTwoFields(FieldName1, FieldValue1, FieldName2, FieldValue2));
+        }
 
         public TEntity Select(string Id)
         {
@@ -65,6 +72,12 @@ namespace SmoothDriving.Infra.Data.Repositories
         {
             return FindByField(FieldName, FieldValue).Any();
         }
+
+        private FilterDefinition<TEntity> CreateFilterByTwoFields(string FieldName, string FieldValue, string FieldName2, string FieldValue2)
+        {
+            return Builders<TEntity>.Filter.Eq(FieldName, FieldValue) & Builders<TEntity>.Filter.Eq(FieldName2, FieldValue2);
+        }
+
         private FilterDefinition<TEntity> CreateFilter(string FieldName, string FieldValue){
 
             if(FieldName == DefaultIdMongoName){

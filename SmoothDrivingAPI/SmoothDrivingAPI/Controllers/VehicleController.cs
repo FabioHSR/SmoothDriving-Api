@@ -13,7 +13,9 @@ namespace SmoothDrivingAPI.Controllers
     {
         private readonly ILogger<VehicleController> _logger;
         private readonly IVehicleRepository _vehicleRepository;
-        public VehicleController(ILogger<VehicleController> logger, IVehicleRepository VehicleRepository)
+        public VehicleController(
+            ILogger<VehicleController> logger, 
+            IVehicleRepository VehicleRepository)
         {
             _vehicleRepository = VehicleRepository;
             _logger = logger;

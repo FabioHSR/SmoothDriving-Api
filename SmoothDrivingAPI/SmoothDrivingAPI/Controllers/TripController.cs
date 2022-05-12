@@ -38,6 +38,14 @@ namespace SmoothDrivingAPI.Controllers
             return Ok(Trip);
         }
 
+        [HttpGet]
+        [Route("{VehicleId}/{UserId}")]
+        public IActionResult Get([FromRoute] string VehicleId, [FromRoute] string UserId)
+        {
+            var Trip = _tripRepository.SelectByUserIdAndVehicleId(UserId, VehicleId);
+            return Ok(Trip);
+        }
+
         [HttpPost]
         [Route("Create")]
         public IActionResult Create([FromBody] Trip trip)
