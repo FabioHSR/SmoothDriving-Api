@@ -1,6 +1,6 @@
 namespace SmoothDrivingAPI.Domain.Entities.SensorsModels
 {
-    public class NivelCombustivel
+    public class Longitude
     {
         public string type { get; set; }
         public string value { get; set; }

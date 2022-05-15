@@ -30,7 +30,7 @@ namespace SmoothDrivingAPI
                 var connectionString = options.GetRequiredService<IConfiguration>()["MongoConnectionString"];
                 return new MongoClient(connectionString);
             });
-
+    
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );

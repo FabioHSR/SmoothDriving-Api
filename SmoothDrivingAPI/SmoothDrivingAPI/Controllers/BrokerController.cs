@@ -34,5 +34,25 @@ namespace SmoothDrivingAPI.Controllers
 
             }
         }
+
+        [AllowAnonymous]
+        [Route("TripProperties")]
+        [HttpGet]
+        public async Task<IActionResult> GetTripProperties(){
+            using (var client = new HttpClient()){
+                client.BaseAddress = new Uri("http://15.228.222.191:1026/v2/");
+                
+                client.DefaultRequestHeaders.Add("fiware-service", "helixiot");
+                client.DefaultRequestHeaders.Add("fiware-servicepath", "/");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                using (HttpResponseMessage response = await client.GetAsync("entities")){
+                    var responseContent = response.Content.ReadAsStringAsync().Result;
+                    response.EnsureSuccessStatusCode();
+                    Console.WriteLine("API Response: " + responseContent);
+                    return Ok(responseContent);
+                }
+            }
+        }
     }
 }
