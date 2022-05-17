@@ -6,29 +6,24 @@ namespace SmoothDrivingAPI.Domain.Entities
     [BsonIgnoreExtraElements]
     public class EventsCount
     {
-
         public EventsCount(){   }
 
         public EventsCount(
-            int CurvaEsquerda, 
-            int CurvaDireita,
-            int TrocaFaixaEsquerda, 
-            int TrocaFaixaDireita, 
-            int AceleracaoBrusca, 
-            int FrenagemBrusca)
-        {
-            this.CurvaEsquerda = CurvaEsquerda;
-            this.CurvaDireita = CurvaDireita;
-            this.TrocaFaixaEsquerda = TrocaFaixaEsquerda;
-            this.TrocaFaixaDireita = TrocaFaixaDireita;
-            this.AceleracaoBrusca = AceleracaoBrusca;
-            this.FrenagemBrusca = FrenagemBrusca;
+            int CurvasAgressivas,
+            int TrocasAgressivas,
+            int RPMmedio,
+            int VelocidadeMax,
+            int VelocidadeMedia ){
+            this.CurvasAgressivas = CurvasAgressivas;
+            this.TrocasAgressivas = TrocasAgressivas;
+            this.RPMmedio = RPMmedio;
+            this.VelocidadeMax = VelocidadeMax;
+            this.VelocidadeMedia = VelocidadeMedia;
         }
-        public int CurvaEsquerda {get; set;}
-        public int CurvaDireita {get; set;}
-        public int TrocaFaixaEsquerda {get; set;}
-        public int TrocaFaixaDireita {get; set;}
-        public int AceleracaoBrusca {get; set;}
-        public int FrenagemBrusca {get; set;}
+        public int CurvasAgressivas { get; set; }
+        public int TrocasAgressivas { get; set; }
+        public int RPMmedio { get; set; }
+        public int VelocidadeMax { get; set; }
+        public int VelocidadeMedia { get; set; }
     }
 }

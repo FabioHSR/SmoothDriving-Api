@@ -7,7 +7,7 @@ namespace SmoothDriving.Infra.Data.Repositories
 {
     public class TripRepository : BaseRepository<Trip>, ITripRepository
     { 
-        public TripRepository(IMongoClient mongoClient) : base(mongoClient, "Trip"){    }
+        public TripRepository(IMongoClient mongoClient) : base(mongoClient, "Trip", "smooth-driving-db") {    }
 
         public List<Trip> SelectByUserIdAndVehicleId(string UserId, string VehicleId)
         {

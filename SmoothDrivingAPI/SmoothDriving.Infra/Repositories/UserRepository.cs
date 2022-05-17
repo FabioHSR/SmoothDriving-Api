@@ -6,7 +6,8 @@ namespace SmoothDriving.Infra.Data.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(IMongoClient mongoClient) : base(mongoClient, "User"){
+        public UserRepository(IMongoClient mongoClient) : base(mongoClient, "User", "smooth-driving-db")
+        {
         }
 
         public bool EmailExists(string Email)

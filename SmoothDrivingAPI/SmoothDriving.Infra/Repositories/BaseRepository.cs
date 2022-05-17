@@ -14,9 +14,9 @@ namespace SmoothDriving.Infra.Data.Repositories
 
         private readonly string DefaultIdMongoName = "_id";
 
-        public BaseRepository(IMongoClient mongoClient, string collectionName)
+        public BaseRepository(IMongoClient mongoClient, string collectionName, string dataBase)
         {
-            var database = mongoClient.GetDatabase("smooth-driving-db");
+            var database = mongoClient.GetDatabase(dataBase);
             _dataCollection = database.GetCollection<TEntity>(collectionName);
         }
         public IList<TEntity> Select()
@@ -78,7 +78,7 @@ namespace SmoothDriving.Infra.Data.Repositories
             return Builders<TEntity>.Filter.Eq(FieldName, FieldValue) & Builders<TEntity>.Filter.Eq(FieldName2, FieldValue2);
         }
 
-        private FilterDefinition<TEntity> CreateFilter(string FieldName, string FieldValue){
+        public FilterDefinition<TEntity> CreateFilter(string FieldName, string FieldValue){
 
             if(FieldName == DefaultIdMongoName){
                 return Builders<TEntity>.Filter.Eq(DefaultIdMongoName, new ObjectId(FieldValue));
