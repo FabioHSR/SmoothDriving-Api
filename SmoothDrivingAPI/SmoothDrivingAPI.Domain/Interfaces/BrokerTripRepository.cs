@@ -8,8 +8,8 @@ using SmoothDrivingAPI.Domain.Entities;
 
 namespace SmoothDrivingAPI.Domain.Interfaces
 {
-    public interface IBrokerService
+    public interface IBrokerTripRepository
     {
-        List<BrokerTrip> GetTrips(string idVeiculo);
+        List<BrokerTrip> GetBrokerTrips(string EntityId);
     }
 }

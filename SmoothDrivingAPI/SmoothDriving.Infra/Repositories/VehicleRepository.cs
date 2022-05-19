@@ -17,13 +17,5 @@ namespace SmoothDriving.Infra.Data.Repositories
         {
             return base.FindByIds(Ids);
         }
-
-        public void AddCNHToVehicles(List<string> Ids, string CNH){
-            List<Vehicle> vehicles = SelectVehiclesByIds(Ids);
-            foreach(Vehicle vehicle in vehicles){
-                vehicle.CNH = CNH;
-                base.Update(vehicle, vehicle.Id);
-            }
-        }
     }
 }

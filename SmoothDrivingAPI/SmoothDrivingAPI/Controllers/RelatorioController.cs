@@ -13,13 +13,11 @@ namespace SmoothDrivingAPI.Controllers
     public class RelatorioController : ControllerBase
     {
         private readonly ILogger<RelatorioController> _logger;
-        private readonly IRelatorioRepository _relatorioRepository;
-        private readonly IRelatorioService _relatorioService;        
+        private readonly IRelatorioRepository _relatorioRepository;      
         public RelatorioController(ILogger<RelatorioController> logger, 
-        IRelatorioRepository relatorioRepository, IRelatorioService relatorioService)
+        IRelatorioRepository relatorioRepository)
         {
             _relatorioRepository = relatorioRepository;
-            _relatorioService = relatorioService;
             _logger = logger;
         }
 
@@ -39,27 +37,26 @@ namespace SmoothDrivingAPI.Controllers
             return Ok(Relatorio);
         }
 
+        [HttpGet]
+        [Route("BrokerTrip/{BrokerTripId}")]
+        public IActionResult GetByEntityId([FromRoute] string BrokerTripId)
+        {
+            Console.WriteLine("BrokerTripId: " + BrokerTripId);
+            Relatorio Relatorio = _relatorioRepository.SelectByTripId(BrokerTripId);
+            
+            if(Relatorio == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(Relatorio);
+        }
+
         [HttpPost]
         [Route("Create")]
         public IActionResult Create([FromBody] Relatorio relatorio)
         {
             return Created("", relatorio);
-        }
-
-        [HttpPut]
-        [Route("{Id}")]
-        public IActionResult Update([FromBody] Relatorio relatorio, [FromRoute] string Id)
-        {
-            Tuple<List<string>, bool> Validate = _relatorioService.ValidateDocument(relatorio);
-
-            if(Validate.Item2 == true){
-                relatorio.Duration = _relatorioService.calculateRelatorioDuration(
-                    relatorio.DateTimeStart, relatorio.DateTimeEnd);
-
-                _relatorioRepository.Update(relatorio, Id);
-                return Ok(relatorio);
-            }
-            return BadRequest(string.Join(", ", Validate.Item1));
         }
 
         [HttpDelete]

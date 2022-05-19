@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using SmoothDrivingAPI.Domain.Enums;
-
 namespace SmoothDrivingAPI.Domain.Entities
 {
     public class Vehicle : BaseEntity
@@ -17,8 +14,8 @@ namespace SmoothDrivingAPI.Domain.Entities
         public string Fuel { get; set; }
         public string Color { get; set; }
         public double Score { get; set; }
-        public string CNH { get; set; }
         public string IPVA { get; set; }
+        public string EntityId { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Valor não pode ser negativo")]
         public int MaxSpeedReached { get; set; }

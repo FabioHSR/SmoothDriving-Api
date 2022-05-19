@@ -52,6 +52,7 @@ namespace SmoothDriving.Infra.Data.Repositories
         }
         public IFindFluent<TEntity, TEntity> FindByField(string FieldName, string FieldValue)
         {
+            Console.WriteLine("Procurando por: " + FieldValue);
             return _dataCollection.Find(CreateFilter(FieldName, FieldValue));
         }
         public IFindFluent<TEntity, TEntity> FindByTwoFields(

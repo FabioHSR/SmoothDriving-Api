@@ -14,16 +14,6 @@ namespace SmoothDrivingAPI.Domain.Entities
 
         [DefaultValue("0001-01-01T00:00:00")]
         public DateTime DateTimeStart { get; set; }
-
-        [JsonIgnore]
-        public int Duration { 
-            get{
-                return Duration;
-            }
-            set{
-                Duration = (int)(DateTimeEnd - DateTimeStart).TotalMilliseconds;
-            }
-        }
         public EventsCount EventsCount { get; set; }
     }
 }

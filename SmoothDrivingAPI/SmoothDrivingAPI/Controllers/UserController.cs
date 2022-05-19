@@ -91,8 +91,6 @@ namespace SmoothDrivingAPI.Controllers
         {
             Tuple<List<string>, bool> Validate = _userService.ValidateDocument(user);
 
-            _vehicleRepository.AddCNHToVehicles(user.Vehicles, user.CNH);
-
             if(Validate.Item2 == false){
                 return BadRequest(string.Join(", ", Validate.Item1));
             }

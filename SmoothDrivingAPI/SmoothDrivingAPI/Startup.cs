@@ -44,7 +44,7 @@ namespace SmoothDrivingAPI
                 return new MongoClient(connectionString);
             });
 
-            services.AddScoped<IMongoClient>(s => new MongoClient("mongodb://helix:H3l1xNG@15.228.222.191:27000/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"));
+            // services.AddScoped<IMongoClient>(s => new MongoClient("mongodb://helix:H3l1xNG@15.228.222.191:27000/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"));
             // services.AddScoped(s => new BrokerContext(s.GetRequiredService<IMongoClient>(), "sth_helixiot"));
 
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -95,8 +95,10 @@ namespace SmoothDrivingAPI
             services.AddScoped<ITripRepository, TripRepository>();
             services.AddScoped<ITripService, TripService>();
 
-            // services.AddScoped<IBrokerMongoRepository, BrokerMongoRepository>();
-            // services.AddScoped<IBrokerService, BrokerService>();
+            services.AddScoped<IRelatorioRepository, RelatorioRepository>();
+            services.AddScoped<IRelatorioService, RelatorioService>();
+
+            services.AddScoped<IBrokerTripRepository, BrokerTripRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,7 +8,5 @@ namespace SmoothDrivingAPI.Domain.Interfaces
         Vehicle SelectByPlate(string Plate);
 
         List<Vehicle> SelectVehiclesByIds(List<string> Ids);
-
-        void AddCNHToVehicles(List<string> Ids, string CNH);
     }
 }

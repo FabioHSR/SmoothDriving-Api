@@ -5,5 +5,6 @@ namespace SmoothDrivingAPI.Domain.Interfaces
 {
     public interface IRelatorioRepository : IBaseRepository<Relatorio>
     {
+        Relatorio SelectByTripId(string tripId);
     }
 }

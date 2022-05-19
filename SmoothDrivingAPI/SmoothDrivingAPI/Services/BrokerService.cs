@@ -1,7 +1,7 @@
 ﻿// using MongoDB.Bson;
 // using MongoDB.Driver;
 // using SmoothDriving.Infra.Data.Context;
-// using SmoothDrivingAPI.Domain.Entities.BrokerEntity;
+// using SmoothDrivingAPI.Domain.Entities;
 // using SmoothDrivingAPI.Domain.Interfaces;
 // using System.Collections.Generic;
 // using System.Linq;
@@ -21,15 +21,10 @@
 //             db = _db;
 //         }
 
-//         public async Task<List<BsonDocument>> GetTrips(string idVeiculo)
+//         public List<BrokerTrip> GetTrips(string EntityId)
 //         {
-
-//         }
-
-//         public async Task<List<Attr>> GetByIdViagem()
-//         {
-//             return brokerRepository.Select("IdViagem", "748639709");
+//             var trips = brokerRepository.GetBrokerTrips(EntityId);
+//             return trips;
 //         }
 //     }
-    
 // }

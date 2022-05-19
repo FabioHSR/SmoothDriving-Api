@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace SmoothDrivingAPI.Domain.Entities
 {
@@ -10,7 +6,6 @@ namespace SmoothDrivingAPI.Domain.Entities
     {
         public string Email { get; set; }
         public string Name { get; set; }
-        public string CNH { get; set; }
         public string Password { get; set; }
         public List<string> Vehicles { get; set; } = new();
     }
