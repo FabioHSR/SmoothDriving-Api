@@ -14,6 +14,6 @@ namespace SmoothDrivingAPI.Domain.Entities
 
         [DefaultValue("0001-01-01T00:00:00")]
         public DateTime DateTimeStart { get; set; }
-        public EventsCount EventsCount { get; set; }
+        public TripResult TripResult { get; set; }
     }
 }

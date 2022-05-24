@@ -4,11 +4,11 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace SmoothDrivingAPI.Domain.Entities
 {
     [BsonIgnoreExtraElements]
-    public class EventsCount
+    public class TripResult
     {
-        public EventsCount(){   }
+        public TripResult(){   }
 
-        public EventsCount(
+        public TripResult(
             int CurvasAgressivas,
             int TrocasAgressivas,
             int RPMmedio,

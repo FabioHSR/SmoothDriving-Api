@@ -16,7 +16,7 @@ namespace SmoothDrivingAPI.Domain.Entities
 
         [JsonIgnore]
         public int Duration { get; set; }
-        public EventsCount EventsCountOld { get; set; } = new();
+        public TripResult TripResult { get; set; } = new();
         public int MaxRPMReached { get; set; }
         public int MaxSpeedReached { get; set; }
         public string UserId { get; set; }
